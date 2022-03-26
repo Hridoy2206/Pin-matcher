@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="left-generate-pin" class="form-control" type="text">
+                    <button class="generate-btn" onclick="generation()">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" type="text" id="right-generate-pin">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                                <div class="button" onclick="expand('7')">7</div>
+                                <div class="button" onclick="expand('8')">8</div>
+                                <div class="button" onclick="expand('9')">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="expand('4')">4</div>
+                                <div class="button" onclick="expand('5')">5</div>
+                                <div class="button" onclick="expand('6')">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="expand('1')">1</div>
+                                <div class="button" onclick="expand('2')">2</div>
+                                <div class="button" onclick="expand('3')">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="singleClear()">&lt;</div>
+                                <div class="button" onclick="expand('0')">0</div>
+                                <div class="button" onclick="clearAll()">C</div>
+                            </div>
+                            <div>
+                                <button onclick="submit()" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notify-section">
+                <p id="notify-fail" class="notify">❌ Pin Didn't Match, Please try again</p>
+                <p id="notify-success" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            </div>
+        </div>
+
+        <!-- <script src="script.js"></script> -->
+
+        <script>
+            // generate pin
+            function generation() {
+                const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+                document.getElementById('left-generate-pin').value = randomNumber;
+                document.getElementById('right-generate-pin').value = null;
+            }
+
+            // Click a single key to same output
+            function expand(newValue) {
+                document.getElementById('right-generate-pin').value =document.getElementById('right-generate-pin').value + newValue;
+            }
+
+            // Clear all 
+            function clearAll() {
+                document.getElementById('right-generate-pin').value = null;
+            }
+
+            // submit button matched or did't matched condition
+            function submit() {
+                const generatePin = document.getElementById('left-generate-pin').value;
+                const submitNumber = document.getElementById('right-generate-pin').value;
+                const pinMatched = document.getElementById('notify-success');
+                const notMatched = document.getElementById('notify-fail');
+
+                // Pin matched or did't matched
+                if (generatePin == submitNumber) {
+                    pinMatched.style.display = "block";
+                    notMatched.style.display =  "none";
+                }
+                else{
+                    pinMatched.style.display = "none";
+                    notMatched.style.display =  "block";
+                }
+            }
+
+            // last number remove
+            function singleClear() {
+                let generatePin = document.getElementById('right-generate-pin').value;
+                let removePin = generatePin.slice(0, generatePin.length -1);
+                document.getElementById('right-generate-pin').value = removePin;
+            }
+
+        </script>
+</body>
+
+</html>
